@@ -1,14 +1,15 @@
-import sys
-
-sys.path.append('/Users/Greg/Leap/lib')
-
 import Leap
 
 class LeapListener(Leap.Listener):
-    pointList = []
+    pointLists = []
+    writing = False
 
     def on_init(self, controller):
         print "Initialized"
+
+    def reset_vals(self):
+        self.pointLists = []
+        self.writing = False
 
     def on_connect(self, controller):
         print "Connected"
@@ -48,11 +49,19 @@ class LeapListener(Leap.Listener):
                 if finger.type == finger.TYPE_INDEX:
                     joint = finger.bone(finger.JOINT_TIP).next_joint
                     
-                    point = (joint.x, joint.y)
+                    if joint.z > -50 and joint.z < 50:
+                        if not self.writing:
+                            self.pointLists.append( ([], []) )
+                            self.writing = True
 
-                    print str(point)
+                        point = (joint.x, joint.y)
 
-                    self.pointList.append(point)
+                        print str(point)
+
+                        self.pointLists[-1][0].append(point[0])
+                        self.pointLists[-1][1].append(point[1])
+                    elif self.writing:
+                        self.writing = False
 
 
         if not (frame.hands.is_empty and frame.gestures().is_empty):

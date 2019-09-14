@@ -8,6 +8,8 @@ from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
 
 from leapListener import *
 
+import matplotlib.pyplot as plt
+
 def main():
     # Create a sample listener and controller
     listener = LeapListener()
@@ -26,7 +28,7 @@ def main():
             pass
         finally:
             if waiting:
-                listener.pointList = []
+                listener.reset_vals()
                 
                 # Have the sample listener receive events from the controller
                 controller.add_listener(listener)
@@ -34,7 +36,12 @@ def main():
                 # Remove the sample listener when done
                 controller.remove_listener(listener) 
 
-                print str(listener.pointList)
+                #print str(listener.pointList)
+                if len(listener.pointLists) > 0:
+                    for pointList in listener.pointLists:
+                        plt.plot(pointList[0], pointList[1], lw=1)
+                
+                    plt.show()
 
             waiting = not waiting
 

@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append('PATH/lib')
+sys.path.append('/Users/Greg/Leap/lib')
 
 import Leap, thread, time
 
@@ -13,18 +13,30 @@ def main():
     listener = LeapListener()
     controller = Leap.Controller()
 
-    # Have the sample listener receive events from the controller
-    controller.add_listener(listener)
+    waiting = True
+    line = ''
 
-    # Keep this process running until Enter is pressed
-    print "Press Enter to quit..."
-    try:
-        sys.stdin.readline()
-    except KeyboardInterrupt:
-        pass
-    finally:
-        # Remove the sample listener when done
-        controller.remove_listener(listener) 
+    while 'x' not in line:
+
+        # Keep this process running until Enter is pressed
+        print "Press Enter to start/stop, x to quit..."
+        try:
+            line = sys.stdin.readline()
+        except KeyboardInterrupt:
+            pass
+        finally:
+            if waiting:
+                listener.pointList = []
+                
+                # Have the sample listener receive events from the controller
+                controller.add_listener(listener)
+            else:
+                # Remove the sample listener when done
+                controller.remove_listener(listener) 
+
+                print str(listener.pointList)
+
+            waiting = not waiting
 
 if __name__ == "__main__":
     main()

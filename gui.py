@@ -1,5 +1,4 @@
 from Tkinter import *
-import platform
 
 from util import *
 
@@ -80,7 +79,7 @@ class Application(Frame):
         self.image = PhotoImage(file=imageFile)
 
         self.imgLbl.configure(image=self.image)
-        
+
         self.update()
 
 

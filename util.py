@@ -5,7 +5,7 @@ from config import *
 #Leap library path (path to lib folder of SDK)
 sys.path.append(LeapPath)
 
-import Leap, thread, time
+import Leap, time
 from leapListener import *
 
 #Create a listener and controller that will be shared by these utility functions
@@ -15,7 +15,7 @@ controller = Leap.Controller()
 import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib import pyplot as plt
-import tempfile, requests, json
+import requests, json
 
 from PIL import Image
 

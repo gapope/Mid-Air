@@ -1,3 +1,6 @@
+'''
+Modified version of the example listener from Leap
+'''
 import Leap
 
 class LeapListener(Leap.Listener):
@@ -47,9 +50,12 @@ class LeapListener(Leap.Listener):
             # Get fingers
             for finger in hand.fingers:
                 if finger.type == finger.TYPE_INDEX:
+                    #Find tip
                     joint = finger.bone(finger.JOINT_TIP).next_joint
                     
+                    #Only use if in the 'writing range'
                     if joint.z > -50 and joint.z < 50:
+                        #Start a new character if we aren't currently writing one
                         if not self.writing:
                             self.pointLists.append( ([], []) )
                             self.writing = True
@@ -57,8 +63,10 @@ class LeapListener(Leap.Listener):
 
                         print "("+ str(joint.x) +", "+ str(joint.y) +")"
 
+                        #Record written points
                         self.pointLists[-1][0].append(joint.x)
                         self.pointLists[-1][1].append(joint.y)
+                    #Mark character split
                     elif self.writing:
                         self.writing = False
 

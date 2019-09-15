@@ -1,3 +1,5 @@
 .vscode
+config.py
 *.pyc
 *.png
+!images/guibkg.png

@@ -26,19 +26,23 @@ class Application(Frame):
     #Build objects
     def initObjects(self):
         #startstop
-        self.startButton = Button(self, text = "Start", command=self.startClicked, font=("Arial Bold", 50), activebackground="DeepSkyBlue2", activeforeground="DeepSkyBlue2", bg = "seagreen1", state = ACTIVE, justify = CENTER, highlightcolor = "DeepSkyBlue2", highlightbackground="white", fg="Black", highlightthickness=6)
-        self.startButton.grid(column = 0, row = 0)
+        self.startBtnImage = PhotoImage(file="images/button_start.png")
+        self.startButton = Button(self, image = self.startBtnImage, command=self.startClicked, activebackground="DeepSkyBlue2", activeforeground="DeepSkyBlue2", bg = "seagreen1", state = ACTIVE, justify = CENTER, highlightcolor = "DeepSkyBlue2", highlightbackground="white", fg="Black", highlightthickness=6)
+        self.startButton.grid(column = 0, row = 0, padx=5, pady=5, sticky=E)
 
-        self.stopButton = Button(self, text = "Stop", command=self.stopClicked, font=("Arial Bold", 50), activebackground="DeepSkyBlue2", activeforeground="DeepSkyBlue2", bg = "seagreen1", state = DISABLED, justify = CENTER, highlightcolor = "DeepSkyBlue2", highlightbackground="white", fg="Black", highlightthickness=6)
-        self.stopButton.grid(column = 1, row = 0)
+        self.stopBtnImage = PhotoImage(file="images/button_stop.png")
+        self.stopButton = Button(self, image = self.stopBtnImage, command=self.stopClicked, activebackground="DeepSkyBlue2", activeforeground="DeepSkyBlue2", bg = "seagreen1", state = DISABLED, justify = CENTER, highlightcolor = "DeepSkyBlue2", highlightbackground="white", fg="Black", highlightthickness=6)
+        self.stopButton.grid(column = 1, row = 0, padx=5, pady=5, sticky=W)
 
+        #Message label
         self.mesgLbl = Label(self, text = "Press start to begin", font=("Arial Bold", 50))
-        self.mesgLbl.grid(column=1, row=1)
+        self.mesgLbl.grid(column=1, row=1, padx=5, pady=5)
 
-        #self.defaultImg = PhotoImage(file='images/default.png')
+        #Image label
+        self.defaultImage = PhotoImage(file='images/default.png')
         
-        self.imgLbl = Label(self)#image=defaultImage)
-        self.imgLbl.grid(column=0, row=2)
+        self.imgLbl = Label(self, image=self.defaultImage)
+        self.imgLbl.grid(column=0, row=1, padx=5, pady=5)
 
     #Start Leap Motion data recording and switch to stop mode
     def startClicked(self):
@@ -51,7 +55,7 @@ class Application(Frame):
         except Exception as e:
             output(self, "Unable to start LeapMotion motion: " +str(e))
 
-    #Stop Leap Motino data recording, trigger data anylsis ad switch to start mode
+    #Stop Leap Motion data recording, trigger data anylsis ad switch to start mode
     def stopClicked(self):
         try:
             stopLeapMotion(self)
@@ -79,7 +83,6 @@ def main():
     app = Application(window)
 
     app.mainloop()
-
 
 
 if __name__ == '__main__':

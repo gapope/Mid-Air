@@ -3,3 +3,4 @@ config.py
 *.pyc
 *.png
 !images/guibkg.png
+!images/default.png

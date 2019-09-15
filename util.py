@@ -1,7 +1,7 @@
 import sys
 
 #Leap library path (path to lib folder of SDK)
-sys.path.append('PATH')
+sys.path.append('/Users/Greg/Leap/lib')
 
 import Leap, thread, time
 from leapListener import *

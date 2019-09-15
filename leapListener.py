@@ -54,12 +54,11 @@ class LeapListener(Leap.Listener):
                             self.pointLists.append( ([], []) )
                             self.writing = True
 
-                        point = (joint.x, joint.y)
 
-                        print str(point)
+                        print "("+ str(joint.x) +", "+ str(joint.y) +")"
 
-                        self.pointLists[-1][0].append(point[0])
-                        self.pointLists[-1][1].append(point[1])
+                        self.pointLists[-1][0].append(joint.x)
+                        self.pointLists[-1][1].append(joint.y)
                     elif self.writing:
                         self.writing = False
 

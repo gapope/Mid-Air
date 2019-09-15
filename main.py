@@ -9,6 +9,16 @@ from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
 from leapListener import *
 
 import matplotlib.pyplot as plt
+import tempfile, requests, json
+
+from PIL import Image
+
+from config import *
+
+url = endpoint + 'vision/v2.0/read/core/asyncBatchAnalyze'
+#url = endpoint + 'vision/v2.0/ocr'
+
+securityHeaders = {'Ocp-Apim-Subscription-Key': subscription_key}
 
 def main():
     # Create a sample listener and controller
@@ -17,6 +27,8 @@ def main():
 
     waiting = True
     line = ''
+
+    plt.rcParams['figure.figsize'] = [4, 3]
 
     while 'x' not in line:
 
@@ -30,18 +42,73 @@ def main():
             if waiting:
                 listener.reset_vals()
                 
-                # Have the sample listener receive events from the controller
+                # Turn on listener
                 controller.add_listener(listener)
             else:
-                # Remove the sample listener when done
+                # Turn off listener
                 controller.remove_listener(listener) 
 
                 #print str(listener.pointList)
-                if len(listener.pointLists) > 0:
+                if listener.pointLists != []:
+
+                    plt.clf()
+                    plt.axis('off')
+
                     for pointList in listener.pointLists:
-                        plt.plot(pointList[0], pointList[1], lw=1)
-                
-                    plt.show()
+                        plt.plot(pointList[0], pointList[1], 'k', lw=5)
+
+                    temp = tempfile.TemporaryFile('w+b')
+
+                    plt.savefig(temp, format='png', quality=100)
+
+                    temp.seek(0)
+
+                    plotImg = Image.open(temp)
+                    plotSize = plotImg.size
+
+                    borderedSize = (8000, 6000)
+                    borderedImg = Image.new("RGB", borderedSize, (255, 255, 255))
+                    borderedImg.paste(plotImg, ((borderedSize[0] - plotSize[0]) / 2, (borderedSize[1] - plotSize[1]) / 2))
+
+                    borderedImg.show()
+
+                    temp.close()
+                    temp = tempfile.TemporaryFile('w+b')
+
+                    borderedImg.save(temp, 'png')
+
+                    temp.seek(0)
+
+                    try:
+                        headers = securityHeaders
+                        headers.update({'Content-Type': 'application/octet-stream'})
+
+                        response = requests.post(url, headers=headers, data=temp.read())
+                        response.raise_for_status()
+                    except Exception as e:
+                        print str(e)
+                        exit()
+
+                    getUrl = response.headers['Operation-Location']
+
+                    
+                    try:
+                        response = requests.get(getUrl,headers=securityHeaders)
+                        response.raise_for_status()
+                        print json.dumps(response.json(), indent=4)
+
+                        while response.json()['status'] not in ['Succeeded', 'Failed']:
+                            time.sleep(1)
+
+                            response = requests.get(getUrl,headers=securityHeaders)
+                            response.raise_for_status()
+                            print json.dumps(response.json(), indent=4)
+
+                    except Exception as e:
+                        print str(e)
+                        exit()
+
+                    #
 
             waiting = not waiting
 

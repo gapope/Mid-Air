@@ -40,18 +40,21 @@ class Application(Frame):
 
         #Image label
         self.defaultImage = PhotoImage(file='images/default.png')
-        
         self.imgLbl = Label(self, image=self.defaultImage)
         self.imgLbl.grid(column=0, row=1, padx=5, pady=5)
+
+        #Text input
+        self.txtInput = Text(self, height=10, width=50)
+        self.txtInput.grid(column=0, row=2, padx=5, pady=5)
 
     #Start Leap Motion data recording and switch to stop mode
     def startClicked(self):
         try:
-            assert startLeapMotion(self)
+            assert startLeapMotion(self), "Listener attach failure"
 
             #Swap mode
-            self.startButton.configure(state=DISABLED)
             self.stopButton.configure(state=ACTIVE)
+            self.startButton.configure(state=DISABLED)
         except Exception as e:
             output(self, "Unable to start LeapMotion motion: " +str(e))
 
@@ -61,8 +64,8 @@ class Application(Frame):
             stopLeapMotion(self)
 
             #Swap mode
-            self.stopButton.configure(state=DISABLED)
             self.startButton.configure(state=ACTIVE)
+            self.stopButton.configure(state=DISABLED)
         except Exception as e:
             output(self, "Error with halting LeapMotion motion and/or processing data: " +str(e))
 

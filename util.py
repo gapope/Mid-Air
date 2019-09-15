@@ -1,7 +1,9 @@
 import sys
 
+from config import *
+
 #Leap library path (path to lib folder of SDK)
-sys.path.append('/Users/Greg/Leap/lib')
+sys.path.append(LeapPath)
 
 import Leap, thread, time
 from leapListener import *
@@ -18,8 +20,6 @@ import tempfile, requests, json
 from PIL import Image
 
 import pyperclip
-
-from config import *
 
 #Azure connection config
 url = endpoint + 'vision/v2.0/read/core/asyncBatchAnalyze'

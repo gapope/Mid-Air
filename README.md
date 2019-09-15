@@ -9,3 +9,5 @@
 1. Start by downloading and installing the [Leap SDK v2](https://developer.leapmotion.com/sdk/v2).
 
 2. Move the folder LeapSDK to some place logical and change the path append at the top of _main.py_ to point to the lib directory in the folder in this location.
+
+3. Run _gui.py OR WHATEVER IT IS BY FINAL EDIT_ and begin using Python GUI application!

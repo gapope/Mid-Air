@@ -11,7 +11,7 @@
 5. Press _"Start"_ on Python GUI Application.
 6. Hover index finger over LEAP Motion Detector and write out a word of your choice.
 7. Press _"Stop"_ on the GUI.
-8. Wait as the image is processed and submitted to Azure.
-9. View 2-D image of your written text on the GUI.
+8. View 2-D image of your written text on the GUI.
+9. Wait as the image is processed and submitted to Azure.
 10. Watch in awe as your handwritten text magically becomes real text on your screen.
 11. It's fed into your clipboard, so Paste and Life is good.

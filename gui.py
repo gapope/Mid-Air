@@ -73,11 +73,15 @@ class Application(Frame):
     def setMessageLabel(self, mesg):
         self.mesgLbl.configure(text=mesg)
 
+        self.update()
+
     #Set an image in the 'Image' label
     def setImageLabel(self, imageFile):
         self.image = PhotoImage(file=imageFile)
 
         self.imgLbl.configure(image=self.image)
+        
+        self.update()
 
 
 #Run the app
